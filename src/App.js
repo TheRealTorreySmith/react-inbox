@@ -14,12 +14,20 @@ class App extends Component {
     }
   }
   checkClick = (message) => {
-    //   this.setState({
-    //     ...this.state,
-    //     selected: true
-    //   })
-    // console.log(message)
+    if(message.selected === true) {
+      let stateCopy = JSON.parse(JSON.stringify(this.state.messages))
+      stateCopy[message.id-1].selected = false
+      this.setState({
+        messages: stateCopy
+      })
+    } else {
+      let stateCopy = JSON.parse(JSON.stringify(this.state.messages))
+      stateCopy[message.id-1].selected = true
+      this.setState({
+        messages: stateCopy
+      })
     }
+  }
     starClick = (message) => {
       //   this.setState({
       //     ...this.state,
