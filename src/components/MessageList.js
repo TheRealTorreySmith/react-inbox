@@ -8,6 +8,7 @@ class MessageList extends React.Component {
         {this.props.messages.map((message, id) => (
           <Message
             key={id}
+            openBody={this.props.openBody}
             checkClick={this.props.checkClick}
             starClick={this.props.starClick}
             message={message}

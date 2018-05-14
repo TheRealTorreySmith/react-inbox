@@ -4,6 +4,7 @@ import Toolbar from './components/Toolbar.js'
 import MessageList from './components/MessageList.js'
 import NewMessage from './components/NewMessage.js'
 import messages from './seeds.json'
+import $ from 'jquery'
 import './App.css';
 
 class App extends Component {
@@ -28,20 +29,46 @@ class App extends Component {
       })
     }
   }
-    starClick = (message) => {
-      //   this.setState({
-      //     ...this.state,
-      //     selected: true
-      //   })
-      }
+  starClick = (message) => {
+    if(message.starred === true) {
+      let stateCopy = JSON.parse(JSON.stringify(this.state.messages))
+      stateCopy[message.id-1].starred = false
+      this.setState({
+        messages: stateCopy
+      })
+    } else {
+      let stateCopy = JSON.parse(JSON.stringify(this.state.messages))
+      stateCopy[message.id-1].starred = true
+      this.setState({
+        messages: stateCopy
+      })
+    }
+  }
+
+  isDisabled = () => {
+    return this.state.messages.filter((x) => (x.selected)).length < 1 ? 'true' : ''
+  }
+
+  openBody = (message) => {
+    if($(`#message${message.id}`).hasClass('hidden')) {
+      $(`#message${message.id}`).removeClass('hidden')
+      let stateCopy = JSON.parse(JSON.stringify(this.state.messages))
+      stateCopy[message.id-1].read = true
+      this.setState({
+        messages: stateCopy
+      })
+    } else {
+      $(`#message${message.id}`).addClass('hidden')
+    }
+  }
 
   render() {
     return (
       <div className="container">
         <MailHeader />
-        <Toolbar messages={this.state.messages} />
+        <Toolbar isDisabled={this.isDisabled} messages={this.state.messages} />
         <NewMessage />
-        <MessageList checkClick={this.checkClick} starClick={this.starClick} messages={this.state.messages} />
+        <MessageList openBody={this.openBody} checkClick={this.checkClick} starClick={this.starClick} messages={this.state.messages} />
       </div>
     )
   }

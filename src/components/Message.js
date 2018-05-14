@@ -1,6 +1,7 @@
 import React from 'react'
 
 class Message extends React.Component {
+
 render() {
   return (
     <div>
@@ -18,9 +19,14 @@ render() {
           </div>
         </div>
         <div className="col-xs-11">
-          <a href="#">
+          <a href="#" onClick={this.props.openBody.bind(null, this.props.message)}>
             {this.props.message.subject}
           </a>
+        </div>
+      </div>
+      <div id={`message${this.props.message.id}`} className="row message-body hidden">
+        <div className="col-xs-11 col-xs-offset-1">
+          {this.props.message.subject}
         </div>
       </div>
     </div>

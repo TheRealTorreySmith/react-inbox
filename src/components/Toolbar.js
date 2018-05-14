@@ -52,14 +52,14 @@ render() {
           Mark As Unread
         </button>
 
-        <select className="form-control label-select">
+        <select className="form-control label-select" disabled={this.props.isDisabled()}>
           <option>Apply label</option>
           <option value="dev">dev</option>
           <option value="personal">personal</option>
           <option value="gschool">gschool</option>
         </select>
 
-        <select className="form-control label-select">
+        <select className="form-control label-select" disabled={this.props.isDisabled()}>
           <option>Remove label</option>
           <option value="dev">dev</option>
           <option value="personal">personal</option>
