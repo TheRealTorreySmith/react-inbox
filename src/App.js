@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MailHeader from './components/MailHeader.js'
 import Toolbar from './components/Toolbar.js'
 import MessageList from './components/MessageList.js'
+import NewMessage from './components/NewMessage.js'
 import messages from './seeds.json'
 import './App.css';
 
@@ -9,8 +10,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      messages: messages,
-      showModal: false
+      messages: messages
     }
   }
   checkClick = (message) => {
@@ -18,7 +18,7 @@ class App extends Component {
     //     ...this.state,
     //     selected: true
     //   })
-    console.log(message)
+    // console.log(message)
     }
     starClick = (message) => {
       //   this.setState({
@@ -26,14 +26,13 @@ class App extends Component {
       //     selected: true
       //   })
       }
-    newMessage = () => {
-      console.log('new message')
-    }
+
   render() {
     return (
       <div className="container">
         <MailHeader />
-        <Toolbar newMessage={this.newMessage} messages={this.state.messages}/>
+        <Toolbar messages={this.state.messages} />
+        <NewMessage />
         <MessageList checkClick={this.checkClick} starClick={this.starClick} messages={this.state.messages} />
       </div>
     )

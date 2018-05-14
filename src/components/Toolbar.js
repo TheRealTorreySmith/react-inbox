@@ -1,6 +1,26 @@
 import React from 'react'
+import $ from 'jquery'
 
 class Toolbar extends React.Component {
+
+  newMessage = () => {
+    if($('#modal').hasClass('hidden')) {
+      $('#modal').removeClass('hidden')
+    } else {
+      $('#modal').addClass('hidden')
+    }
+    if($('#new-message-button').hasClass('hidden')) {
+      $('#new-message-button').removeClass('hidden')
+    } else {
+      $('#new-message-button').addClass('hidden')
+    }
+    if($('#cancel-new-message-button').hasClass('hidden')) {
+      $('#cancel-new-message-button').removeClass('hidden')
+    } else {
+      $('#cancel-new-message-button').addClass('hidden')
+    }
+  }
+
 render() {
   return (
     <div className="row toolbar">
@@ -11,14 +31,24 @@ render() {
             "unread message" :
             "unread messages" }
         </p>
-        <a className="btn btn-danger" onClick={this.props.newMessage}>
+
+        {/* Compose New Message */}
+        <a id="new-message-button" type="button" className="btn btn-success" onClick={this.newMessage}>
           <i className="fa fa-plus"></i>
         </a>
-        <button className="btn btn-default">
+
+        {/* Cancel New Message */}
+        <a id="cancel-new-message-button" type="button" className="btn btn-danger hidden" onClick={this.newMessage}>
+          <i className="fa fa-minus"></i>
+        </a>
+
+        <button className={`btn btn-default ${this.props.messages.filter((messages) =>
+          (messages.selected)).length < 1 ? 'disabled' : '' }`}>
           Mark As Read
         </button>
 
-        <button className="btn btn-default">
+        <button className={`btn btn-default ${this.props.messages.filter((messages) =>
+          (messages.selected)).length < 1 ? 'disabled' : '' }`}>
           Mark As Unread
         </button>
 
