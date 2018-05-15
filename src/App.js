@@ -78,7 +78,6 @@ class App extends Component {
   }
 
   applyLabel = (label) => {
-    let stateJSONCopy = JSON.parse(JSON.stringify(this.state.messages))
     let newState = this.state.messages.map((message) => {
         message.selected && !message.labels.includes(label) ? message.labels = message.labels.concat(label) : message.labels
         return message
@@ -86,6 +85,56 @@ class App extends Component {
     this.setState({
       messages: newState
     })
+  }
+
+  deleteLabel = (label) => {
+    let newState = this.state.messages.map((message) => {
+        message.selected && message.labels.includes(label) ? message.labels = message.labels.filter((x) => x !== label) : message.labels
+        return message
+    })
+    this.setState({
+      messages: newState
+    })
+  }
+
+  markAsRead = () => {
+    let newState = this.state.messages.map((message) => {
+      message.selected ? message.read = true : message.read
+      return message
+    })
+    this.setState({
+      messages: newState
+    })
+  }
+
+  markAsUnread = () => {
+    let newState = this.state.messages.map((message) => {
+      message.selected ? message.read = false : message.read
+      return message
+    })
+    this.setState({
+      messages: newState
+    })
+  }
+
+  selectAll = () => {
+    if(this.state.messages.filter(m => m.selected).length < this.state.messages.length) {
+      let newState = this.state.messages.map((message) => {
+        message.selected = true
+        return {...message, selected: true}
+      })
+      this.setState({
+        messages: newState
+      })
+    } else {
+      let newState = this.state.messages.map((message) => {
+        message.selected = false
+        return {...message, selected: false}
+      })
+      this.setState({
+        messages: newState
+      })
+    }
   }
 
   render() {
@@ -97,6 +146,10 @@ class App extends Component {
           messages={this.state.messages}
           deleteMessage={this.deleteMessage}
           applyLabel={this.applyLabel}
+          deleteLabel={this.deleteLabel}
+          markAsRead={this.markAsRead}
+          markAsUnread={this.markAsUnread}
+          selectAll={this.selectAll}
         />
         <NewMessage />
         <MessageList

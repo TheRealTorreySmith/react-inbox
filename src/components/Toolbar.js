@@ -26,6 +26,11 @@ setLabel = (event) => {
   return this.props.applyLabel(label)
 }
 
+removeLabel = (event) => {
+  let label = event.target.value
+  return this.props.deleteLabel(label)
+}
+
 render() {
   return (
     <div className="row toolbar">
@@ -47,22 +52,24 @@ render() {
           <i className="fa fa-minus"></i>
         </a>
 
-        <button className={`btn btn-default ${this.props.messages.filter((messages) =>
-          (messages.selected)).length > 0 ? 'hidden' : '' }`}>
-          <i className="fa fa-square-o"></i>
+        <button onClick={this.props.selectAll} className="btn btn-default">
+           {
+             this.props.messages.filter((messages) =>
+            (messages.selected)).length === this.props.messages.length ?
+           <i className="fa fa-check-square-o"></i> :
+           this.props.messages.filter((messages) =>
+            (messages.selected)).length === 0 ?
+            <i className="fa fa-square-o"></i> :
+           <i className="fa fa-minus-square-o"></i>
+           }
         </button>
 
-        <button className={`btn btn-default ${this.props.messages.filter((messages) =>
-          (messages.selected)).length < 1 ? 'hidden' : '' }`}>
-          <i className="fa fa-minus-square-o"></i>
-        </button>
-
-        <button className={`btn btn-default ${this.props.messages.filter((messages) =>
+        <button onClick={this.props.markAsRead} className={`btn btn-default ${this.props.messages.filter((messages) =>
           (messages.selected)).length < 1 ? 'disabled' : '' }`}>
           Mark As Read
         </button>
 
-        <button className={`btn btn-default ${this.props.messages.filter((messages) =>
+        <button onClick={this.props.markAsUnread} className={`btn btn-default ${this.props.messages.filter((messages) =>
           (messages.selected)).length < 1 ? 'disabled' : '' }`}>
           Mark As Unread
         </button>
@@ -74,7 +81,7 @@ render() {
           <option value="gschool">gschool</option>
         </select>
 
-        <select className="form-control label-select" disabled={this.props.isDisabled()}>
+        <select className="form-control label-select" onChange={this.removeLabel} disabled={this.props.isDisabled()}>
           <option>Remove label</option>
           <option value="dev">dev</option>
           <option value="personal">personal</option>
