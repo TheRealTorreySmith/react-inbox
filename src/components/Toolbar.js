@@ -21,6 +21,11 @@ class Toolbar extends React.Component {
     }
   }
 
+setLabel = (event) => {
+  let label = event.target.value
+  return this.props.applyLabel(label)
+}
+
 render() {
   return (
     <div className="row toolbar">
@@ -43,6 +48,16 @@ render() {
         </a>
 
         <button className={`btn btn-default ${this.props.messages.filter((messages) =>
+          (messages.selected)).length > 0 ? 'hidden' : '' }`}>
+          <i className="fa fa-square-o"></i>
+        </button>
+
+        <button className={`btn btn-default ${this.props.messages.filter((messages) =>
+          (messages.selected)).length < 1 ? 'hidden' : '' }`}>
+          <i className="fa fa-minus-square-o"></i>
+        </button>
+
+        <button className={`btn btn-default ${this.props.messages.filter((messages) =>
           (messages.selected)).length < 1 ? 'disabled' : '' }`}>
           Mark As Read
         </button>
@@ -52,7 +67,7 @@ render() {
           Mark As Unread
         </button>
 
-        <select className="form-control label-select" disabled={this.props.isDisabled()}>
+        <select className="form-control label-select" onChange={this.setLabel} disabled={this.props.isDisabled()}>
           <option>Apply label</option>
           <option value="dev">dev</option>
           <option value="personal">personal</option>
@@ -66,7 +81,7 @@ render() {
           <option value="gschool">gschool</option>
         </select>
 
-        <button className="btn btn-default">
+        <button className="btn btn-default" onClick={this.props.deleteMessage.bind(null, this.props.messages)}>
           <i className="fa fa-trash-o"></i>
         </button>
       </div>

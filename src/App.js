@@ -17,28 +17,32 @@ class App extends Component {
   checkClick = (message) => {
     if(message.selected === true) {
       let stateCopy = JSON.parse(JSON.stringify(this.state.messages))
-      stateCopy[message.id-1].selected = false
+      let selectedObject = stateCopy.filter((x) => x.id === message.id)
+      selectedObject[0].selected = false
       this.setState({
         messages: stateCopy
       })
-    } else {
-      let stateCopy = JSON.parse(JSON.stringify(this.state.messages))
-      stateCopy[message.id-1].selected = true
-      this.setState({
-        messages: stateCopy
-      })
-    }
+      } else {
+        let stateCopy = JSON.parse(JSON.stringify(this.state.messages))
+        let selectedObject = stateCopy.filter((x) => x.id === message.id)
+        selectedObject[0].selected = true
+        this.setState({
+          messages: stateCopy
+        })
+      }
   }
   starClick = (message) => {
     if(message.starred === true) {
       let stateCopy = JSON.parse(JSON.stringify(this.state.messages))
-      stateCopy[message.id-1].starred = false
+      let selectedObject = stateCopy.filter((x) => x.id === message.id)
+      selectedObject[0].starred = false
       this.setState({
         messages: stateCopy
       })
     } else {
       let stateCopy = JSON.parse(JSON.stringify(this.state.messages))
-      stateCopy[message.id-1].starred = true
+      let selectedObject = stateCopy.filter((x) => x.id === message.id)
+      selectedObject[0].starred = true
       this.setState({
         messages: stateCopy
       })
@@ -62,13 +66,45 @@ class App extends Component {
     }
   }
 
+  deleteMessage = () => {
+    let stateJSONCopy = JSON.parse(JSON.stringify(this.state.messages))
+    let messagesToDelete = stateJSONCopy.filter((selectedMessages) => selectedMessages.selected)
+    let idsToDelete = messagesToDelete.map((ids) => ids.id)
+    let stateCopy = stateJSONCopy.filter((allMessages) => !idsToDelete.includes(allMessages.id))
+      console.log(stateCopy)
+      this.setState({
+        messages: stateCopy
+      })
+  }
+
+  applyLabel = (label) => {
+    let stateJSONCopy = JSON.parse(JSON.stringify(this.state.messages))
+    let newState = this.state.messages.map((message) => {
+        message.selected && !message.labels.includes(label) ? message.labels = message.labels.concat(label) : message.labels
+        return message
+    })
+    this.setState({
+      messages: newState
+    })
+  }
+
   render() {
     return (
       <div className="container">
         <MailHeader />
-        <Toolbar isDisabled={this.isDisabled} messages={this.state.messages} />
+        <Toolbar
+          isDisabled={this.isDisabled}
+          messages={this.state.messages}
+          deleteMessage={this.deleteMessage}
+          applyLabel={this.applyLabel}
+        />
         <NewMessage />
-        <MessageList openBody={this.openBody} checkClick={this.checkClick} starClick={this.starClick} messages={this.state.messages} />
+        <MessageList
+          openBody={this.openBody}
+          checkClick={this.checkClick}
+          starClick={this.starClick}
+          messages={this.state.messages}
+        />
       </div>
     )
   }

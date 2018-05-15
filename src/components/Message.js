@@ -8,8 +8,11 @@ render() {
       <div className={`row message ${this.props.message.read ? "read" : "unread"} ${this.props.message.selected ? "selected" : ""}`}>
         <div className="col-xs-1">
           <div className="row">
-            <div className="col-xs-2" onChange={this.props.checkClick.bind(null, this.props.message)}>
-              <input  type="checkbox" defaultChecked={this.props.message.selected}/>
+            <div className="col-xs-2" >
+              <input
+                type="checkbox"
+                onChange={this.props.checkClick.bind(null, this.props.message)}
+                checked={this.props.message.selected ? "checked" : ""}/>
             </div>
             <div className="col-xs-2" onClick={this.props.starClick.bind(null, this.props.message)}>
               { this.props.message.starred ?
@@ -19,7 +22,8 @@ render() {
           </div>
         </div>
         <div className="col-xs-11">
-          <a href="#" onClick={this.props.openBody.bind(null, this.props.message)}>
+          {this.props.message.labels.length > 0 ? this.props.message.labels.map((label, i) => <span key={i} className="label label-warning">{label}</span>): ''}
+          <a onClick={this.props.openBody.bind(null, this.props.message)}>
             {this.props.message.subject}
           </a>
         </div>
