@@ -30,7 +30,7 @@ render() {
       </div>
       <div id={`message${this.props.message.id}`} className="row message-body hidden">
         <div className="col-xs-11 col-xs-offset-1">
-          {this.props.message.subject}
+          {this.props.message.body}
         </div>
       </div>
     </div>
